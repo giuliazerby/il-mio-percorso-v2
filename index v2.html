@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f7f0e7">
+<title>Il Mio Percorso V2</title>
+<style>
+:root{--bg:#f7f0e7;--card:#fffaf5;--sage:#89927a;--sage2:#dfe5d7;--rose:#d78372;--rose2:#f1d8d0;--ink:#3e4038;--muted:#77776e;--line:#e5ddd2}
+*{box-sizing:border-box}body{margin:0;background:#ddd8d0;color:var(--ink);font-family:Georgia,serif}.app{max-width:430px;min-height:100vh;margin:auto;background:var(--bg);padding-bottom:90px}
+header{padding:28px 20px 12px}h1,h2,h3{font-weight:500}.sub{font:13px Arial,sans-serif;color:var(--muted)}main{padding:8px 18px}.screen{display:none}.screen.active{display:block}.card{background:var(--card);border-radius:18px;padding:16px;margin:12px 0;box-shadow:0 6px 20px #0000000d}.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}.stat{background:#fdf8f2;border-radius:14px;padding:13px;text-align:center}.label{font:11px Arial;color:var(--muted);text-transform:uppercase}.value{font-size:22px;margin-top:5px}.edit{font:12px Arial;color:var(--sage);text-decoration:underline;cursor:pointer}
+.progress{width:155px;height:155px;border-radius:50%;margin:16px auto;display:grid;place-items:center;background:conic-gradient(var(--sage) var(--p),#e3e5e2 0)}.progress:after{content:"";width:120px;height:120px;border-radius:50%;background:var(--card);position:absolute}.progress span{z-index:1;text-align:center;font-size:29px}.progress small{display:block;font:11px Arial;color:var(--muted)}
+.btn{width:100%;border:0;border-radius:14px;padding:14px;font:600 14px Arial;cursor:pointer}.rose{background:var(--rose);color:white}.sage{background:var(--sage);color:white}.soft{background:var(--rose2);color:#6d4f49}.tracker{width:100%;border:0;border-radius:15px;padding:15px;margin:7px 0;text-align:left;font:600 13px Arial;display:flex;justify-content:space-between;align-items:center;cursor:pointer}.t1{background:#f0d7d1}.t2{background:#df8a79}.t3{background:#dfe5d7}.pts{background:var(--rose);color:#fff;border-radius:18px;padding:7px 9px;font-size:11px}.total{text-align:center}.total strong{font-size:32px}.bar{height:8px;background:#e5e5df;border-radius:8px;overflow:hidden;margin:12px 0}.bar i{display:block;height:100%;background:var(--rose);width:0}.pathstats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.pathstat{text-align:center;background:#fdf8f2;border-radius:13px;padding:12px 5px}.pathstat b{display:block;font-size:20px}.pathstat span{font:9px Arial;color:var(--muted);text-transform:uppercase}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}.calday{text-align:center;font:9px Arial;color:var(--muted)}.calday b{display:grid;place-items:center;width:28px;height:28px;margin:4px auto;border-radius:50%}.calday.done b{background:var(--sage);color:#fff}.calday.today b{border:2px solid var(--rose)}.motives p{font:14px/1.45 Arial;padding:12px 0;margin:0;border-bottom:1px solid var(--line)}.motives p:last-child{border:0}.motives p:before{content:"•";color:var(--rose);font-size:21px;margin-right:9px}.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(430px,100%);display:grid;grid-template-columns:repeat(5,1fr);background:#fffaf5f5;border-top:1px solid var(--line);padding:8px 3px calc(8px + env(safe-area-inset-bottom));z-index:5}.nav{border:0;background:none;color:#8a887f;font:10px Arial;cursor:pointer}.nav.active{color:#5f6c56;font-weight:bold}.ico{display:block;font-size:21px;margin-bottom:3px}.modal{position:fixed;inset:0;background:#0007;display:none;align-items:center;justify-content:center;padding:22px;z-index:10}.modal.show{display:flex}.modalbox{width:100%;max-width:380px;background:var(--card);border-radius:20px;padding:22px}.modalbox input{width:100%;padding:12px;border:1px solid var(--line);border-radius:12px;margin:5px 0 12px;font-size:16px}label{font:12px Arial;color:var(--muted)}
+</style>
+</head>
+<body><div class="app">
+<header><h1>Ciao Giulia,</h1><div class="sub">oggi sei sempre più vicina al tuo obiettivo 🌿</div></header>
+<main>
+<section id="dashboard" class="screen active">
+<div class="card"><div class="stats">
+<div class="stat"><div class="label">Peso attuale</div><div class="value"><span id="weight"></span> kg<br><span class="edit" onclick="editWeight()">modifica</span></div></div>
+<div class="stat"><div class="label">Obiettivo</div><div class="value"><span id="goal"></span> kg<br><span class="edit" onclick="editWeight()">modifica</span></div></div></div>
+<div class="progress" id="prog"><span id="pct">0%<small>del percorso</small></span></div>
+<div class="stat"><div class="label">Ti mancano</div><div class="value"><span id="left"></span> kg</div></div></div>
+<div class="card"><div class="label">Punti di oggi</div><div class="value">⭐ <span id="dashPts">0</span> punti</div></div>
+<div class="card" style="background:var(--sage2)"><b>IL TUO PERCORSO ♡</b><p class="sub">Ogni giornata conta. Oggi riparti da zero, ma il tuo percorso continua.</p></div>
+</section>
+
+<section id="tracker" class="screen"><h2>Tracker</h2><div class="sub">Ogni scelta corretta è un passo verso il tuo obiettivo.</div>
+<button class="tracker t1" onclick="points(3)">🍵 HO RISPETTATO LA DIETA <span class="pts">+3</span></button>
+<button class="tracker t2" onclick="points(5)">🌿 HO RESISTITO A UNA TENTAZIONE <span class="pts">+5</span></button>
+<button class="tracker t3" onclick="points(3)">🏋️ MI SONO ALLENATA <span class="pts">+3</span></button>
+<div class="card total"><div class="label">Punti di oggi</div><strong id="today">0</strong><div class="bar"><i id="bar"></i></div><div class="sub">Ogni nuovo giorno il punteggio riparte da zero.</div></div></section>
+
+<section id="plan" class="screen"><h2>Piano</h2><div class="sub">Il tuo piano alimentare e il monitoraggio del percorso.</div>
+<div class="card"><h3>🍽️ Piano alimentare della settimana</h3><p class="sub">Puoi inserire qui il tuo piano settimanale.</p><textarea id="meal" rows="8" style="width:100%;border:1px solid var(--line);border-radius:12px;padding:12px;font:14px Arial" placeholder="Lunedì…&#10;Martedì…&#10;Mercoledì…"></textarea><button class="btn rose" style="margin-top:10px" onclick="saveMeal()">Salva piano</button></div>
+<div class="card"><h3>🎯 Il mio percorso</h3><div class="pathstats"><div class="pathstat"><b id="streak">0</b><span>giorni consecutivi</span></div><div class="pathstat"><b id="days">0</b><span>giorni raggiunti</span></div><div class="pathstat"><b id="record">0</b><span>record</span></div></div><h4>Storico</h4><div class="calendar" id="cal"></div></div>
+</section>
+
+<section id="important" class="screen"><h2>IMPORTANTE</h2><div class="sub">Rileggi questa lista più volte al giorno.</div><div class="card motives">
+<p>Per sentirmi bella ogni volta che mi guardo o che guardo una mia foto</p>
+<p>Mio marito e i miei figli non si devono vergognare di me</p>
+<p>Essere a mio agio in intimità</p>
+<p>Essere un esempio per i miei figli</p>
+<p>Non avere l’ansia di mettermi in costume</p>
+<p>Poter rincorrere i miei figli senza avere il fiatone</p>
+<p>Dimostrare a mia madre che posso perdere peso senza ricorrere a scorciatoie</p>
+<p>Per poter entrare in un negozio e trovare sempre il capo con la mia taglia</p>
+<p>Non dover più sentire giudizi sul mio corpo o commenti su cosa e quanto mangio</p>
+<p>Non dover più cercare “curvy”</p>
+<p>Per potermi allenare con indumenti attillati senza sentirmi giudicata</p>
+</div></section>
+
+<section id="sos" class="screen"><div class="card"><div class="label">FERMATI UN ATTIMO.</div><h2>Sto per mollare</h2><p>Respira. Non devi decidere adesso.</p><div class="card">♡ Ricordati perché hai iniziato.</div><div class="card">✨ Il piacere di pochi secondi non vale la gioia di vederti bella nella foto.</div><button class="btn sage" onclick="alert('Aspetta 10 minuti. Non devi decidere adesso.')">Aspetta 10 minuti.</button></div></section>
+</main>
+<nav class="bottom"><button class="nav active" onclick="go('dashboard',this)"><span class="ico">⌂</span>Dashboard</button><button class="nav" onclick="go('tracker',this)"><span class="ico">☆</span>Tracker</button><button class="nav" onclick="go('plan',this)"><span class="ico">▣</span>Piano</button><button class="nav" onclick="go('important',this)"><span class="ico">♡</span>Importante</button><button class="nav" onclick="go('sos',this)"><span class="ico">◉</span>SOS</button></nav>
+<div class="modal" id="modal"><div class="modalbox"><h2>Modifica obiettivi</h2><label>Peso attuale (kg)<input id="wi" type="number" step=".1"></label><label>Peso obiettivo (kg)<input id="gi" type="number" step=".1"></label><button class="btn rose" onclick="saveWeight()">Salva</button><button class="btn soft" style="margin-top:8px" onclick="modal.classList.remove('show')">Annulla</button></div></div>
+</div>
+<script>
+const key=()=>new Date().toISOString().slice(0,10);let s=JSON.parse(localStorage.getItem('mioPercorsoV2')||'null')||{weight:68.4,goal:58,todayKey:key(),pts:0,history:{},streak:0,record:0,days:0,meal:''};
+if(s.todayKey!==key()){s.todayKey=key();s.pts=0;save()}function save(){localStorage.setItem('mioPercorsoV2',JSON.stringify(s))}
+function render(){weight.textContent=s.weight.toFixed(1).replace('.',',');goal.textContent=s.goal.toFixed(1).replace('.',',');left.textContent=Math.max(0,s.weight-s.goal).toFixed(1).replace('.',',');let p=s.weight<=s.goal?100:Math.max(0,Math.min(100,(68.4-s.weight)/(68.4-s.goal)*100));prog.style.setProperty('--p',p+'%');pct.innerHTML=Math.round(p)+'%<small>del percorso</small>';today.textContent=s.pts;dashPts.textContent=s.pts;bar.style.width=Math.min(100,s.pts/15*100)+'%';streak.textContent=s.streak;days.textContent=s.days;record.textContent=s.record;meal.value=s.meal;calendar()}
+function points(n){s.pts+=n;if(s.pts>=10&&!s.history[s.todayKey]){s.history[s.todayKey]=s.pts;s.days++;s.streak++;s.record=Math.max(s.record,s.streak)}save();render()}
+function go(id,el){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav').forEach(x=>x.classList.remove('active'));el.classList.add('active');scrollTo(0,0)}
+function editWeight(){wi.value=s.weight;gi.value=s.goal;modal.classList.add('show')}
+function saveWeight(){let w=parseFloat(wi.value),g=parseFloat(gi.value);if(w>0&&g>0){s.weight=w;s.goal=g;save();render();modal.classList.remove('show')}}
+function saveMeal(){s.meal=meal.value;save();alert('Piano salvato 🌿')}
+function calendar(){cal.innerHTML='';let n=new Date();for(let i=27;i>=0;i--){let d=new Date(n);d.setDate(n.getDate()-i);let k=d.toISOString().slice(0,10),x=document.createElement('div');x.className='calday '+(s.history[k]?'done ':'')+(k===key()?'today':'');x.innerHTML='<span>'+d.toLocaleDateString('it-IT',{weekday:'narrow'})+'</span><b>'+d.getDate()+'</b>';cal.appendChild(x)}}
+render()
+</script></body></html>
