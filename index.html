@@ -51,8 +51,41 @@ header{padding:28px 20px 12px}h1,h2,h3{font-weight:500}.sub{font:13px Arial,sans
 <p>Per potermi allenare con indumenti attillati senza sentirmi giudicata</p>
 </div></section>
 
-<section id="sos" class="screen"><div class="card"><div class="label">FERMATI UN ATTIMO.</div><h2>Sto per mollare</h2><p>Respira. Non devi decidere adesso.</p><div class="card">♡ Ricordati perché hai iniziato.</div><div class="card">✨ Il piacere di pochi secondi non vale la gioia di vederti bella nella foto.</div><button class="btn sage" onclick="alert('Aspetta 10 minuti. Non devi decidere adesso.')">Aspetta 10 minuti.</button></div></section>
-</main>
+<section id="sos" class="screen">
+<div class="card">
+<div class="label">FERMATI UN ATTIMO.</div>
+<h2>Sto per mollare</h2>
+<p class="sub">Leggi, respira, poi decidi.</p>
+
+<div class="card">
+♡<br>
+<b>Ricordati quanto è importante per te.</b><br>
+<span class="sub">Torna a leggere il perché hai iniziato.</span>
+</div>
+
+<div class="card">
+✨<br>
+<b>Il piacere di pochi secondi non vale la gioia di vederti bella nella foto.</b>
+</div>
+
+<div class="card">
+🌿<br>
+<b>Prova a distrarti.</b><br>
+<span class="sub">Magari è solo fame emotiva.</span>
+</div>
+
+<div class="card">
+🍴<br>
+<b>Se stai per mollare, ricordati di sederti a mangiare anche se non hai ancora fame.</b>
+</div>
+
+<button class="btn sage" onclick="alert('Aspetta 10 minuti. Non devi decidere adesso.')">
+Aspetta 10 minuti.<br>
+Non devi decidere adesso.
+</button>
+
+</div>
+</section>
 <nav class="bottom"><button class="nav active" onclick="go('dashboard',this)"><span class="ico">⌂</span>Dashboard</button><button class="nav" onclick="go('tracker',this)"><span class="ico">☆</span>Tracker</button><button class="nav" onclick="go('plan',this)"><span class="ico">▣</span>Piano</button><button class="nav" onclick="go('important',this)"><span class="ico">♡</span>Importante</button><button class="nav" onclick="go('sos',this)"><span class="ico">◉</span>SOS</button></nav>
 <div class="modal" id="modal"><div class="modalbox"><h2>Modifica obiettivi</h2><label>Peso attuale (kg)<input id="wi" type="number" step=".1"></label><label>Peso obiettivo (kg)<input id="gi" type="number" step=".1"></label><button class="btn rose" onclick="saveWeight()">Salva</button><button class="btn soft" style="margin-top:8px" onclick="modal.classList.remove('show')">Annulla</button></div></div>
 </div>
