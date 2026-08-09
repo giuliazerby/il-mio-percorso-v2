@@ -32,9 +32,61 @@ header{padding:28px 20px 12px}h1,h2,h3{font-weight:500}.sub{font:13px Arial,sans
 <button class="tracker t3" onclick="points(3)">🏋️ MI SONO ALLENATA <span class="pts">+3</span></button>
 <div class="card total"><div class="label">Punti di oggi</div><strong id="today">0</strong><div class="bar"><i id="bar"></i></div><div class="sub">Ogni nuovo giorno il punteggio riparte da zero.</div></div></section>
 
-<section id="plan" class="screen"><h2>Piano</h2><div class="sub">Il tuo piano alimentare e il monitoraggio del percorso.</div>
-<div class="card"><h3>🍽️ Piano alimentare della settimana</h3><p class="sub">Puoi inserire qui il tuo piano settimanale.</p><textarea id="meal" rows="8" style="width:100%;border:1px solid var(--line);border-radius:12px;padding:12px;font:14px Arial" placeholder="Lunedì…&#10;Martedì…&#10;Mercoledì…"></textarea><button class="btn rose" style="margin-top:10px" onclick="saveMeal()">Salva piano</button></div>
-<div class="card"><h3>🎯 Il mio percorso</h3><div class="pathstats"><div class="pathstat"><b id="streak">0</b><span>giorni consecutivi</span></div><div class="pathstat"><b id="days">0</b><span>giorni raggiunti</span></div><div class="pathstat"><b id="record">0</b><span>record</span></div></div><h4>Storico</h4><div class="calendar" id="cal"></div></div>
+<section id="plan" class="screen">
+<h2>Piano</h2>
+<div class="sub">Il tuo piano alimentare e il monitoraggio del percorso.</div>
+
+<div class="card">
+<h3>🍽️ Piano alimentare della settimana</h3>
+<p class="sub">Carica qui la foto del tuo piano alimentare.</p>
+
+<input
+  type="file"
+  id="mealPhoto"
+  accept="image/*"
+  onchange="saveMealPhoto(event)"
+  style="width:100%;margin:10px 0;"
+>
+
+<img
+  id="mealPreview"
+  style="display:none;width:100%;border-radius:14px;margin-top:10px;"
+>
+
+<button
+  id="removeMealPhoto"
+  class="btn soft"
+  style="display:none;margin-top:10px;"
+  onclick="removeMealPhoto()"
+>
+  Sostituisci foto
+</button>
+</div>
+
+<div class="card">
+<h3>🎯 Il mio percorso</h3>
+
+<div class="pathstats">
+<div class="pathstat">
+<b id="streak">0</b>
+<span>giorni consecutivi</span>
+</div>
+
+<div class="pathstat">
+<b id="days">0</b>
+<span>giorni raggiunti</span>
+</div>
+
+<div class="pathstat">
+<b id="record">0</b>
+<span>record</span>
+</div>
+</div>
+
+<h4>Storico</h4>
+<div class="calendar" id="cal"></div>
+</div>
+
 </section>
 
 <section id="important" class="screen"><h2>IMPORTANTE</h2><div class="sub">Rileggi questa lista più volte al giorno.</div><div class="card motives">
@@ -97,7 +149,45 @@ function points(n){s.pts+=n;if(s.pts>=10&&!s.history[s.todayKey]){s.history[s.to
 function go(id,el){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav').forEach(x=>x.classList.remove('active'));el.classList.add('active');scrollTo(0,0)}
 function editWeight(){wi.value=s.weight;gi.value=s.goal;modal.classList.add('show')}
 function saveWeight(){let w=parseFloat(wi.value),g=parseFloat(gi.value);if(w>0&&g>0){s.weight=w;s.goal=g;save();render();modal.classList.remove('show')}}
-function saveMeal(){s.meal=meal.value;save();alert('Piano salvato 🌿')}
+function saveMealPhoto(event){
+  const file = event.target.files[0];
+  if(!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function(e){
+    s.mealPhoto = e.target.result;
+    save();
+    renderMealPhoto();
+  };
+
+  reader.readAsDataURL(file);
+}
+
+function renderMealPhoto(){
+  const preview = document.getElementById('mealPreview');
+  const removeBtn = document.getElementById('removeMealPhoto');
+
+  if(s.mealPhoto){
+    preview.src = s.mealPhoto;
+    preview.style.display = 'block';
+    removeBtn.style.display = 'block';
+  } else {
+    preview.style.display = 'none';
+    removeBtn.style.display = 'none';
+  }
+}
+
+function removeMealPhoto(){
+  s.mealPhoto = '';
+  save();
+  renderMealPhoto();
+  document.getElementById('mealPhoto').value = '';
+}
 function calendar(){cal.innerHTML='';let n=new Date();for(let i=27;i>=0;i--){let d=new Date(n);d.setDate(n.getDate()-i);let k=d.toISOString().slice(0,10),x=document.createElement('div');x.className='calday '+(s.history[k]?'done ':'')+(k===key()?'today':'');x.innerHTML='<span>'+d.toLocaleDateString('it-IT',{weekday:'narrow'})+'</span><b>'+d.getDate()+'</b>';cal.appendChild(x)}}
+
 render()
+
+renderMealPhoto()
+
 </script></body></html>
