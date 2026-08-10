@@ -182,21 +182,23 @@ main{
   transform:scale(.98);
 }
 
-.activity.done{
-  outline:3px solid var(--sage);
-  outline-offset:1px;
-}
+/* COLORE POSITIVO PER LE ATTIVITÀ */
 
 .a1{
   background:#f0d7d1;
 }
 
 .a2{
-  background:#df8a79;
+  background:#dfe5d7;
 }
 
 .a3{
-  background:#dfe5d7;
+  background:#e8eadf;
+}
+
+.activity.done{
+  outline:3px solid var(--sage);
+  outline-offset:1px;
 }
 
 .activity-left{
@@ -205,18 +207,26 @@ main{
   gap:9px;
 }
 
+/* CERCHIETTO VUOTO */
+
 .check{
   width:25px;
   height:25px;
   border-radius:50%;
   background:#ffffffaa;
+  border:2px solid #aeb5a3;
   display:grid;
   place-items:center;
   font-size:14px;
+  color:transparent;
+  flex-shrink:0;
 }
+
+/* QUANDO SELEZIONATO COMPARE IL CHECK */
 
 .done .check{
   background:var(--sage);
+  border-color:var(--sage);
   color:white;
 }
 
@@ -477,6 +487,13 @@ label{
   <div class="stats">
 
     <div class="stat">
+      <div class="label">Peso iniziale</div>
+      <div class="value">
+        <span id="startWeight"></span> kg
+      </div>
+    </div>
+
+    <div class="stat">
       <div class="label">Peso attuale</div>
       <div class="value">
         <span id="weight"></span> kg
@@ -485,15 +502,15 @@ label{
       </div>
     </div>
 
-    <div class="stat">
-      <div class="label">Obiettivo</div>
-      <div class="value">
-        <span id="goal"></span> kg
-        <br>
-        <span class="edit" onclick="editSettings()">modifica</span>
-      </div>
-    </div>
+  </div>
 
+  <div class="stat" style="margin-top:10px;">
+    <div class="label">Obiettivo</div>
+    <div class="value">
+      <span id="goal"></span> kg
+      <br>
+      <span class="edit" onclick="editSettings()">modifica</span>
+    </div>
   </div>
 
   <div class="progress" id="prog">
@@ -853,6 +870,15 @@ SOS
 <h2>Modifica percorso</h2>
 
 <label>
+Peso iniziale (kg)
+<input
+  id="swi"
+  type="number"
+  step=".1"
+>
+</label>
+
+<label>
 Peso attuale (kg)
 <input
   id="wi"
@@ -916,6 +942,8 @@ JSON.parse(
   localStorage.getItem('mioPercorsoV2')
 ) || {
 
+  startWeight:68.4,
+
   weight:68.4,
 
   goal:58,
@@ -931,16 +959,40 @@ JSON.parse(
   lastReminderDate:'',
 
   todayActivities:{
-
     diet:false,
-
     temptation:false,
-
     workout:false
-
   }
 
 };
+
+
+/* COMPATIBILITÀ CON LA VERSIONE PRECEDENTE */
+
+if(!s.startWeight){
+
+  s.startWeight =
+    Number(s.weight) || 68.4;
+
+}
+
+if(!s.history){
+
+  s.history={};
+
+}
+
+if(!s.todayActivities){
+
+  s.todayActivities={
+    diet:false,
+    temptation:false,
+    workout:false
+  };
+
+}
+
+save();
 
 
 /* =========================
@@ -963,17 +1015,19 @@ function save(){
 
 function ensureToday(){
 
-  const today = todayKey();
+  const today=todayKey();
 
   if(!s.todayActivities){
+
     s.todayActivities={
       diet:false,
       temptation:false,
       workout:false
     };
+
   }
 
-  if(s.todayDate !== today){
+  if(s.todayDate!==today){
 
     s.todayDate=today;
 
@@ -1001,6 +1055,13 @@ function render(){
 
   /* PESO */
 
+  document.getElementById('startWeight')
+    .textContent=
+    Number(s.startWeight)
+      .toFixed(1)
+      .replace('.',',');
+
+
   document.getElementById('weight')
     .textContent=
     Number(s.weight)
@@ -1021,31 +1082,40 @@ function render(){
       Number(s.weight)-Number(s.goal)
     );
 
+
   document.getElementById('left')
     .textContent=
     left.toFixed(1)
       .replace('.',',');
 
 
-  /* PROGRESSO */
+  /* PROGRESSO BASATO SUL PESO INIZIALE */
 
   let p=0;
 
-  if(Number(s.weight)<=Number(s.goal)){
+  const startWeight=
+    Number(s.startWeight);
+
+  const currentWeight=
+    Number(s.weight);
+
+  const goalWeight=
+    Number(s.goal);
+
+
+  if(currentWeight<=goalWeight){
 
     p=100;
 
-  }else{
-
-    const startWeight=68.4;
+  }else if(startWeight>goalWeight){
 
     p=
       Math.max(
         0,
         Math.min(
           100,
-          ((startWeight-Number(s.weight)) /
-          (startWeight-Number(s.goal)))*100
+          ((startWeight-currentWeight) /
+          (startWeight-goalWeight))*100
         )
       );
 
@@ -1067,11 +1137,13 @@ function render(){
   /* DATA */
 
   document.getElementById('startDate')
-    .textContent=formatDate(s.startDate);
+    .textContent=
+    formatDate(s.startDate);
 
 
   document.getElementById('historyStart')
-    .textContent=formatDate(s.startDate);
+    .textContent=
+    formatDate(s.startDate);
 
 
   /* ATTIVITÀ */
@@ -1097,13 +1169,17 @@ function render(){
 
   /* STATISTICHE */
 
-  const totals=getTotals();
+  const totals=
+    getTotals();
+
 
   document.getElementById('totalDiet')
     .textContent=totals.diet;
 
+
   document.getElementById('totalTemptation')
     .textContent=totals.temptation;
+
 
   document.getElementById('totalWorkout')
     .textContent=totals.workout;
@@ -1127,7 +1203,9 @@ function render(){
 
 function updateActivityButton(id,done){
 
-  const el=document.getElementById(id);
+  const el=
+    document.getElementById(id);
+
 
   if(done){
 
@@ -1146,8 +1224,10 @@ function toggleActivity(type){
 
   ensureToday();
 
+
   s.todayActivities[type]=
     !s.todayActivities[type];
+
 
   save();
 
@@ -1166,11 +1246,13 @@ function markBadDay(){
 
   ensureToday();
 
+
   s.todayActivities={
     diet:false,
     temptation:false,
     workout:false
   };
+
 
   s.todayMarked=true;
 
@@ -1183,16 +1265,28 @@ function markBadDay(){
 }
 
 
+/* =========================
+   MESSAGGIO GIORNALIERO
+========================= */
+
 function updateTodayMessage(){
 
   const box=
-    document.getElementById('todayMessage');
+    document.getElementById(
+      'todayMessage'
+    );
 
-  const a=s.todayActivities;
+
+  const a=
+    s.todayActivities;
+
 
   const count=
-    [a.diet,a.temptation,a.workout]
-    .filter(Boolean).length;
+    [
+      a.diet,
+      a.temptation,
+      a.workout
+    ].filter(Boolean).length;
 
 
   if(count===0){
@@ -1208,7 +1302,7 @@ function updateTodayMessage(){
   if(count===3){
 
     box.innerHTML=
-      '✨ Hai registrato tutte e tre le attività di oggi. Brava, continua così!';
+      '✨ Hai registrato tutte e tre le attività di oggi. Continua così!';
 
     return;
 
@@ -1216,7 +1310,8 @@ function updateTodayMessage(){
 
 
   box.innerHTML=
-    '✓ Hai registrato '+count+
+    '✓ Hai registrato '+
+    count+
     ' attività oggi. Ogni scelta conta. 🌿';
 
 }
@@ -1228,7 +1323,9 @@ function updateTodayMessage(){
 
 function updateHistoryToday(){
 
-  const k=todayKey();
+  const k=
+    todayKey();
+
 
   if(!s.history[k]){
 
@@ -1240,11 +1337,13 @@ function updateHistoryToday(){
 
   }
 
+
   s.history[k]={
     diet:s.todayActivities.diet,
     temptation:s.todayActivities.temptation,
     workout:s.todayActivities.workout
   };
+
 
   save();
 
@@ -1262,13 +1361,20 @@ function getTotals(){
 
   Object.keys(s.history).forEach(k=>{
 
-    const d=s.history[k];
+    const d=
+      s.history[k];
 
-    if(d.diet) totals.diet++;
 
-    if(d.temptation) totals.temptation++;
+    if(d.diet)
+      totals.diet++;
 
-    if(d.workout) totals.workout++;
+
+    if(d.temptation)
+      totals.temptation++;
+
+
+    if(d.workout)
+      totals.workout++;
 
   });
 
@@ -1281,16 +1387,24 @@ function getTotals(){
 function renderHistory(){
 
   const container=
-    document.getElementById('historyList');
+    document.getElementById(
+      'historyList'
+    );
+
 
   container.innerHTML='';
 
 
   const start=
-    parseLocalDate(s.startDate);
+    parseLocalDate(
+      s.startDate
+    );
+
 
   const today=
-    parseLocalDate(todayKey());
+    parseLocalDate(
+      todayKey()
+    );
 
 
   if(start>today){
@@ -1303,12 +1417,15 @@ function renderHistory(){
   }
 
 
-  let current=new Date(today);
+  let current=
+    new Date(today);
 
 
   while(current>=start){
 
-    const k=localDateKey(current);
+    const k=
+      localDateKey(current);
+
 
     const d=
       s.history[k] ||
@@ -1320,24 +1437,37 @@ function renderHistory(){
 
 
     const row=
-      document.createElement('div');
+      document.createElement(
+        'div'
+      );
 
-    row.className='history-day';
+
+    row.className=
+      'history-day';
 
 
     const date=
-      document.createElement('div');
+      document.createElement(
+        'div'
+      );
 
-    date.className='history-date';
+
+    date.className=
+      'history-date';
+
 
     date.textContent=
       formatDate(k);
 
 
     const items=
-      document.createElement('div');
+      document.createElement(
+        'div'
+      );
 
-    items.className='history-items';
+
+    items.className=
+      'history-items';
 
 
     items.appendChild(
@@ -1347,12 +1477,14 @@ function renderHistory(){
       )
     );
 
+
     items.appendChild(
       historyItem(
         '🌿 Tentazione',
         d.temptation
       )
     );
+
 
     items.appendChild(
       historyItem(
@@ -1381,14 +1513,21 @@ function renderHistory(){
 function historyItem(text,done){
 
   const el=
-    document.createElement('div');
+    document.createElement(
+      'div'
+    );
+
 
   el.className=
     'history-item'+
     (done?' done':'');
 
+
   el.textContent=
-    done ? '✓ '+text : '— '+text;
+    done
+      ? '✓ '+text
+      : '— '+text;
+
 
   return el;
 
@@ -1401,7 +1540,9 @@ function historyItem(text,done){
 
 function parseLocalDate(value){
 
-  const parts=value.split('-');
+  const parts=
+    value.split('-');
+
 
   return new Date(
     Number(parts[0]),
@@ -1416,18 +1557,26 @@ function localDateKey(date){
 
   return date.getFullYear()+
     '-'+
-    String(date.getMonth()+1).padStart(2,'0')+
+    String(
+      date.getMonth()+1
+    ).padStart(2,'0')+
     '-'+
-    String(date.getDate()).padStart(2,'0');
+    String(
+      date.getDate()
+    ).padStart(2,'0');
 
 }
 
 
 function formatDate(value){
 
-  if(!value) return '—';
+  if(!value)
+    return '—';
 
-  const d=parseLocalDate(value);
+
+  const d=
+    parseLocalDate(value);
+
 
   return d.toLocaleDateString(
     'it-IT',
@@ -1447,14 +1596,25 @@ function formatDate(value){
 
 function editSettings(){
 
-  document.getElementById('wi').value=
+  document.getElementById('swi')
+    .value=
+    s.startWeight;
+
+
+  document.getElementById('wi')
+    .value=
     s.weight;
 
-  document.getElementById('gi').value=
+
+  document.getElementById('gi')
+    .value=
     s.goal;
 
-  document.getElementById('si').value=
+
+  document.getElementById('si')
+    .value=
     s.startDate;
+
 
   document
     .getElementById('modal')
@@ -1465,39 +1625,64 @@ function editSettings(){
 
 function saveSettings(){
 
-  const w=
+  const startWeight=
     parseFloat(
-      document.getElementById('wi').value
+      document.getElementById('swi')
+        .value
     );
 
-  const g=
+
+  const weight=
     parseFloat(
-      document.getElementById('gi').value
+      document.getElementById('wi')
+        .value
     );
+
+
+  const goal=
+    parseFloat(
+      document.getElementById('gi')
+        .value
+    );
+
 
   const start=
-    document.getElementById('si').value;
+    document.getElementById('si')
+      .value;
 
 
   if(
-    w>0 &&
-    g>0 &&
+    startWeight>0 &&
+    weight>0 &&
+    goal>0 &&
     start
   ){
 
-    s.weight=w;
+    s.startWeight=
+      startWeight;
 
-    s.goal=g;
 
-    s.startDate=start;
+    s.weight=
+      weight;
+
+
+    s.goal=
+      goal;
+
+
+    s.startDate=
+      start;
+
 
     save();
 
     render();
 
+
     document
       .getElementById('modal')
-      .classList.remove('show');
+      .classList
+      .remove('show');
 
   }
 
@@ -1513,23 +1698,27 @@ function saveMealPhoto(event){
   const file=
     event.target.files[0];
 
-  if(!file) return;
+
+  if(!file)
+    return;
 
 
   const reader=
     new FileReader();
 
 
-  reader.onload=function(e){
+  reader.onload=
+    function(e){
 
-    s.mealPhoto=
-      e.target.result;
+      s.mealPhoto=
+        e.target.result;
 
-    save();
 
-    renderMealPhoto();
+      save();
 
-  };
+      renderMealPhoto();
+
+    };
 
 
   reader.readAsDataURL(file);
@@ -1544,6 +1733,7 @@ function renderMealPhoto(){
       'mealPreview'
     );
 
+
   const removeBtn=
     document.getElementById(
       'removeMealPhoto'
@@ -1552,17 +1742,25 @@ function renderMealPhoto(){
 
   if(s.mealPhoto){
 
-    preview.src=s.mealPhoto;
+    preview.src=
+      s.mealPhoto;
 
-    preview.style.display='block';
 
-    removeBtn.style.display='block';
+    preview.style.display=
+      'block';
+
+
+    removeBtn.style.display=
+      'block';
 
   }else{
 
-    preview.style.display='none';
+    preview.style.display=
+      'none';
 
-    removeBtn.style.display='none';
+
+    removeBtn.style.display=
+      'none';
 
   }
 
@@ -1576,6 +1774,7 @@ function removeMealPhoto(){
   save();
 
   renderMealPhoto();
+
 
   document.getElementById(
     'mealPhoto'
@@ -1593,23 +1792,30 @@ function go(id,el){
   document
     .querySelectorAll('.screen')
     .forEach(x=>
-      x.classList.remove('active')
+      x.classList.remove(
+        'active'
+      )
     );
 
 
   document
     .getElementById(id)
-    .classList.add('active');
+    .classList.add(
+      'active'
+    );
 
 
   document
     .querySelectorAll('.nav')
     .forEach(x=>
-      x.classList.remove('active')
+      x.classList.remove(
+        'active'
+      )
     );
 
 
   el.classList.add('active');
+
 
   window.scrollTo(0,0);
 
@@ -1639,9 +1845,12 @@ function enableNotifications(){
 
       if(permission==='granted'){
 
-        s.reminderEnabled=true;
+        s.reminderEnabled=
+          true;
+
 
         save();
+
 
         alert(
           'Promemoria attivato! 🌿'
@@ -1667,17 +1876,25 @@ function enableNotifications(){
 
 function checkReminder(){
 
-  if(!s.reminderEnabled) return;
+  if(!s.reminderEnabled)
+    return;
 
 
-  const now=new Date();
-
-  const hour=now.getHours();
-
-  const today=todayKey();
+  const now=
+    new Date();
 
 
-  const a=s.todayActivities;
+  const hour=
+    now.getHours();
+
+
+  const today=
+    todayKey();
+
+
+  const a=
+    s.todayActivities;
+
 
   const nothing=
     !a.diet &&
@@ -1707,7 +1924,10 @@ function checkReminder(){
 
     }
 
-    s.lastReminderDate=today;
+
+    s.lastReminderDate=
+      today;
+
 
     save();
 
