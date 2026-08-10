@@ -8,358 +8,450 @@
 
 <style>
 :root{
---bg:#f7f0e7;
---card:#fffaf5;
---sage:#89927a;
---sage2:#dfe5d7;
---rose:#d78372;
---rose2:#f1d8d0;
---ink:#3e4038;
---muted:#77776e;
---line:#e5ddd2
+  --bg:#f7f0e7;
+  --card:#fffaf5;
+  --sage:#89927a;
+  --sage2:#dfe5d7;
+  --rose:#d78372;
+  --rose2:#f1d8d0;
+  --ink:#3e4038;
+  --muted:#77776e;
+  --line:#e5ddd2;
 }
 
 *{box-sizing:border-box}
 
 body{
-margin:0;
-background:#ddd8d0;
-color:var(--ink);
-font-family:Georgia,serif
+  margin:0;
+  background:#ddd8d0;
+  color:var(--ink);
+  font-family:Georgia,serif;
 }
 
 .app{
-max-width:430px;
-min-height:100vh;
-margin:auto;
-background:var(--bg);
-padding-bottom:90px
+  max-width:430px;
+  min-height:100vh;
+  margin:auto;
+  background:var(--bg);
+  padding-bottom:90px;
 }
 
-header{padding:28px 20px 12px}
+header{
+  padding:28px 20px 12px;
+}
 
-h1,h2,h3{font-weight:500}
+h1,h2,h3{
+  font-weight:500;
+}
+
+h2{
+  margin-bottom:6px;
+}
 
 .sub{
-font:13px Arial,sans-serif;
-color:var(--muted)
+  font:13px Arial,sans-serif;
+  color:var(--muted);
 }
 
-main{padding:8px 18px}
+main{
+  padding:8px 18px;
+}
 
-.screen{display:none}
+.screen{
+  display:none;
+}
 
-.screen.active{display:block}
+.screen.active{
+  display:block;
+}
 
 .card{
-background:var(--card);
-border-radius:18px;
-padding:16px;
-margin:12px 0;
-box-shadow:0 6px 20px #0000000d
+  background:var(--card);
+  border-radius:18px;
+  padding:16px;
+  margin:12px 0;
+  box-shadow:0 6px 20px #0000000d;
 }
 
 .stats{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
 }
 
 .stat{
-background:#fdf8f2;
-border-radius:14px;
-padding:13px;
-text-align:center
+  background:#fdf8f2;
+  border-radius:14px;
+  padding:13px;
+  text-align:center;
 }
 
 .label{
-font:11px Arial;
-color:var(--muted);
-text-transform:uppercase
+  font:11px Arial;
+  color:var(--muted);
+  text-transform:uppercase;
 }
 
 .value{
-font-size:22px;
-margin-top:5px
+  font-size:22px;
+  margin-top:5px;
 }
 
 .edit{
-font:12px Arial;
-color:var(--sage);
-text-decoration:underline;
-cursor:pointer
+  font:12px Arial;
+  color:var(--sage);
+  text-decoration:underline;
+  cursor:pointer;
 }
 
 .progress{
-width:155px;
-height:155px;
-border-radius:50%;
-margin:16px auto;
-display:grid;
-place-items:center;
-background:conic-gradient(
-var(--sage) var(--p),
-#e3e5e2 0
-)
+  width:155px;
+  height:155px;
+  border-radius:50%;
+  margin:16px auto;
+  display:grid;
+  place-items:center;
+  background:conic-gradient(
+    var(--sage) var(--p),
+    #e3e5e2 0
+  );
+  position:relative;
 }
 
 .progress:after{
-content:"";
-width:120px;
-height:120px;
-border-radius:50%;
-background:var(--card);
-position:absolute
+  content:"";
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  background:var(--card);
+  position:absolute;
 }
 
 .progress span{
-z-index:1;
-text-align:center;
-font-size:29px
+  z-index:1;
+  text-align:center;
+  font-size:29px;
 }
 
 .progress small{
-display:block;
-font:11px Arial;
-color:var(--muted)
+  display:block;
+  font:11px Arial;
+  color:var(--muted);
 }
 
 .btn{
-width:100%;
-border:0;
-border-radius:14px;
-padding:14px;
-font:600 14px Arial;
-cursor:pointer
+  width:100%;
+  border:0;
+  border-radius:14px;
+  padding:14px;
+  font:600 14px Arial;
+  cursor:pointer;
 }
 
 .rose{
-background:var(--rose);
-color:white
+  background:var(--rose);
+  color:white;
 }
 
 .sage{
-background:var(--sage);
-color:white
+  background:var(--sage);
+  color:white;
 }
 
 .soft{
-background:var(--rose2);
-color:#6d4f49
+  background:var(--rose2);
+  color:#6d4f49;
 }
 
-/* AZIONI DASHBOARD */
-
-.action{
-width:100%;
-border:0;
-border-radius:15px;
-padding:15px;
-margin:7px 0;
-text-align:left;
-font:600 13px Arial;
-display:flex;
-justify-content:space-between;
-align-items:center;
-cursor:pointer;
-transition:.15s
+.activity{
+  width:100%;
+  border:0;
+  border-radius:15px;
+  padding:16px 15px;
+  margin:7px 0;
+  text-align:left;
+  font:600 13px Arial;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  cursor:pointer;
+  transition:.15s;
 }
 
-.action:active{
-transform:scale(.98)
+.activity:active{
+  transform:scale(.98);
 }
 
-.a1{background:#f0d7d1}
-
-.a2{background:#df8a79}
-
-.a3{background:#dfe5d7}
-
-.action-status{
-background:#fffaf5;
-color:var(--sage);
-border-radius:18px;
-padding:7px 10px;
-font-size:12px
+.activity.done{
+  outline:3px solid var(--sage);
+  outline-offset:1px;
 }
 
-.action.done{
-box-shadow:inset 0 0 0 2px var(--sage)
+.a1{
+  background:#f0d7d1;
 }
 
-/* PERCORSO */
+.a2{
+  background:#df8a79;
+}
+
+.a3{
+  background:#dfe5d7;
+}
+
+.activity-left{
+  display:flex;
+  align-items:center;
+  gap:9px;
+}
+
+.check{
+  width:25px;
+  height:25px;
+  border-radius:50%;
+  background:#ffffffaa;
+  display:grid;
+  place-items:center;
+  font-size:14px;
+}
+
+.done .check{
+  background:var(--sage);
+  color:white;
+}
+
+.today-message{
+  background:var(--sage2);
+  border-radius:16px;
+  padding:15px;
+  margin-top:14px;
+  font:14px/1.4 Arial;
+}
+
+.cancel-day{
+  margin-top:10px;
+  width:100%;
+  border:1px solid var(--line);
+  background:transparent;
+  color:var(--muted);
+  border-radius:12px;
+  padding:11px;
+  font:12px Arial;
+}
 
 .pathstats{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:7px
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:7px;
 }
 
 .pathstat{
-text-align:center;
-background:#fdf8f2;
-border-radius:13px;
-padding:12px 5px
+  text-align:center;
+  background:#fdf8f2;
+  border-radius:13px;
+  padding:12px 5px;
 }
 
 .pathstat b{
-display:block;
-font-size:20px
+  display:block;
+  font-size:22px;
 }
 
 .pathstat span{
-font:9px Arial;
-color:var(--muted);
-text-transform:uppercase
+  font:9px Arial;
+  color:var(--muted);
+  text-transform:uppercase;
 }
 
-.calendar{
-display:grid;
-grid-template-columns:repeat(7,1fr);
-gap:4px
+.history{
+  margin-top:15px;
 }
 
-.calday{
-text-align:center;
-font:9px Arial;
-color:var(--muted)
+.history-day{
+  border-top:1px solid var(--line);
+  padding:13px 0;
 }
 
-.calday b{
-display:grid;
-place-items:center;
-width:28px;
-height:28px;
-margin:4px auto;
-border-radius:50%
+.history-date{
+  font:bold 13px Arial;
+  margin-bottom:8px;
 }
 
-.calday.done b{
-background:var(--sage);
-color:#fff
+.history-items{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:5px;
 }
 
-.calday.partial b{
-background:var(--rose2);
-color:var(--ink)
+.history-item{
+  background:#fdf8f2;
+  border-radius:10px;
+  padding:8px 4px;
+  text-align:center;
+  font:10px Arial;
+  color:var(--muted);
 }
 
-.calday.today b{
-border:2px solid var(--rose)
+.history-item.done{
+  background:var(--sage2);
+  color:var(--ink);
 }
 
-.legend{
-font:11px Arial;
-color:var(--muted);
-margin-top:12px;
-line-height:1.5
+.history-empty{
+  font:11px Arial;
+  color:var(--muted);
+  font-style:italic;
+  padding:5px 0;
 }
 
-/* IMPORTANTE */
+.photo-box{
+  text-align:center;
+}
+
+#mealPreview{
+  display:none;
+  width:100%;
+  border-radius:14px;
+  margin-top:10px;
+}
 
 .motives p{
-font:14px/1.45 Arial;
-padding:12px 0;
-margin:0;
-border-bottom:1px solid var(--line)
+  font:14px/1.45 Arial;
+  padding:12px 0;
+  margin:0;
+  border-bottom:1px solid var(--line);
 }
 
-.motives p:last-child{border:0}
+.motives p:last-child{
+  border:0;
+}
 
 .motives p:before{
-content:"•";
-color:var(--rose);
-font-size:21px;
-margin-right:9px
+  content:"•";
+  color:var(--rose);
+  font-size:21px;
+  margin-right:9px;
 }
 
-/* MENU */
+.sos-box{
+  background:var(--card);
+  border-radius:18px;
+  padding:18px;
+  margin:12px 0;
+}
+
+.sos-box b{
+  line-height:1.4;
+}
+
+.start-date-box{
+  background:var(--sage2);
+  border-radius:14px;
+  padding:12px;
+  margin-top:12px;
+}
+
+.start-date-value{
+  font:15px Arial;
+  margin-top:4px;
+}
 
 .bottom{
-position:fixed;
-bottom:0;
-left:50%;
-transform:translateX(-50%);
-width:min(430px,100%);
-display:grid;
-grid-template-columns:repeat(4,1fr);
-background:#fffaf5f5;
-border-top:1px solid var(--line);
-padding:8px 3px calc(8px + env(safe-area-inset-bottom));
-z-index:5
+  position:fixed;
+  bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:min(430px,100%);
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  background:#fffaf5f5;
+  border-top:1px solid var(--line);
+  padding:8px 3px calc(8px + env(safe-area-inset-bottom));
+  z-index:5;
 }
 
 .nav{
-border:0;
-background:none;
-color:#8a887f;
-font:10px Arial;
-cursor:pointer
+  border:0;
+  background:none;
+  color:#8a887f;
+  font:10px Arial;
+  cursor:pointer;
 }
 
 .nav.active{
-color:#5f6c56;
-font-weight:bold
+  color:#5f6c56;
+  font-weight:bold;
 }
 
 .ico{
-display:block;
-font-size:21px;
-margin-bottom:3px
+  display:block;
+  font-size:21px;
+  margin-bottom:3px;
 }
-
-/* MODALE */
 
 .modal{
-position:fixed;
-inset:0;
-background:#0007;
-display:none;
-align-items:center;
-justify-content:center;
-padding:22px;
-z-index:10
+  position:fixed;
+  inset:0;
+  background:#0007;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:22px;
+  z-index:10;
 }
 
-.modal.show{display:flex}
+.modal.show{
+  display:flex;
+}
 
 .modalbox{
-width:100%;
-max-width:380px;
-background:var(--card);
-border-radius:20px;
-padding:22px
+  width:100%;
+  max-width:380px;
+  background:var(--card);
+  border-radius:20px;
+  padding:22px;
 }
 
 .modalbox input{
-width:100%;
-padding:12px;
-border:1px solid var(--line);
-border-radius:12px;
-margin:5px 0 12px;
-font-size:16px
+  width:100%;
+  padding:12px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  margin:5px 0 12px;
+  font-size:16px;
 }
 
 label{
-font:12px Arial;
-color:var(--muted)
+  font:12px Arial;
+  color:var(--muted);
 }
 
-.photo{
-width:100%;
-border-radius:14px;
-margin-top:10px;
-display:none
+.notification-box{
+  background:#fdf8f2;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:13px;
+  margin-top:12px;
 }
 
-.date-box{
-background:#fdf8f2;
-border-radius:14px;
-padding:13px;
-margin-top:12px;
-display:flex;
-justify-content:space-between;
-align-items:center
+.notification-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+.notification-time{
+  font:bold 18px Arial;
+}
+
+.small-btn{
+  border:0;
+  border-radius:10px;
+  background:var(--rose2);
+  color:#6d4f49;
+  padding:9px 12px;
+  font:600 11px Arial;
 }
 </style>
 </head>
@@ -369,158 +461,153 @@ align-items:center
 <div class="app">
 
 <header>
-<h1>Ciao Giulia,</h1>
-<div class="sub">oggi sei sempre più vicina al tuo obiettivo 🌿</div>
+  <h1>Ciao Giulia,</h1>
+  <div class="sub">
+    oggi sei sempre più vicina al tuo obiettivo 🌿
+  </div>
 </header>
 
 <main>
 
 <!-- DASHBOARD -->
-
 <section id="dashboard" class="screen active">
 
 <div class="card">
 
-<div class="stats">
+  <div class="stats">
 
-<div class="stat">
-<div class="label">Peso attuale</div>
-<div class="value">
-<span id="weight"></span> kg<br>
-<span class="edit" onclick="editWeight()">modifica</span>
-</div>
+    <div class="stat">
+      <div class="label">Peso attuale</div>
+      <div class="value">
+        <span id="weight"></span> kg
+        <br>
+        <span class="edit" onclick="editSettings()">modifica</span>
+      </div>
+    </div>
+
+    <div class="stat">
+      <div class="label">Obiettivo</div>
+      <div class="value">
+        <span id="goal"></span> kg
+        <br>
+        <span class="edit" onclick="editSettings()">modifica</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="progress" id="prog">
+    <span id="pct">
+      0%
+      <small>del percorso</small>
+    </span>
+  </div>
+
+  <div class="stat">
+    <div class="label">Ti mancano</div>
+    <div class="value">
+      <span id="left"></span> kg
+    </div>
+  </div>
+
+  <div class="start-date-box">
+    <div class="label">DIETA INIZIATA IL</div>
+    <div class="start-date-value">
+      <span id="startDate"></span>
+      · <span class="edit" onclick="editSettings()">modifica</span>
+    </div>
+  </div>
+
 </div>
 
-<div class="stat">
-<div class="label">Obiettivo</div>
-<div class="value">
-<span id="goal"></span> kg<br>
-<span class="edit" onclick="editWeight()">modifica</span>
-</div>
-</div>
 
-</div>
-
-<div class="progress" id="prog">
-<span id="pct">
-0%
-<small>del percorso</small>
-</span>
-</div>
-
-<div class="stat">
-<div class="label">Ti mancano</div>
-<div class="value">
-<span id="left"></span> kg
-</div>
-</div>
-
-<div class="date-box">
-<div>
-<div class="label">Inizio dieta</div>
-<strong id="startDate"></strong>
-</div>
-<span class="edit" onclick="editStartDate()">modifica</span>
-</div>
-
-</div>
-
-
+<!-- ATTIVITÀ DI OGGI -->
 <div class="card">
 
-<h3>🌿 Oggi</h3>
+  <h3>🌿 Com'è andata oggi?</h3>
 
-<div class="sub">
-Ogni scelta conta. Segna quello che hai fatto oggi.
-</div>
+  <div class="sub">
+    Segna quello che hai fatto. Ogni attività viene registrata separatamente.
+  </div>
 
-<button id="dietAction"
-class="action a1"
-onclick="toggleAction('diet')">
+  <button id="actDiet" class="activity a1" onclick="toggleActivity('diet')">
+    <span class="activity-left">
+      <span class="check">✓</span>
+      🍵 HO RISPETTATO LA DIETA
+    </span>
+  </button>
 
-<span>🍵 HO RISPETTATO LA DIETA</span>
+  <button id="actTemptation" class="activity a2" onclick="toggleActivity('temptation')">
+    <span class="activity-left">
+      <span class="check">✓</span>
+      🌿 HO RESISTITO A UNA TENTAZIONE
+    </span>
+  </button>
 
-<span class="action-status" id="dietStatus">○</span>
+  <button id="actWorkout" class="activity a3" onclick="toggleActivity('workout')">
+    <span class="activity-left">
+      <span class="check">✓</span>
+      🏋🏻‍♀️ MI SONO ALLENATA
+    </span>
+  </button>
 
-</button>
+  <div id="todayMessage" class="today-message">
+    Non hai ancora registrato nulla oggi.
+  </div>
 
-
-<button id="temptAction"
-class="action a2"
-onclick="toggleAction('tempt')">
-
-<span>🌿 HO RESISTITO A UNA TENTAZIONE</span>
-
-<span class="action-status" id="temptStatus">○</span>
-
-</button>
-
-
-<button id="workoutAction"
-class="action a3"
-onclick="toggleAction('workout')">
-
-<span>🏋️ MI SONO ALLENATA</span>
-
-<span class="action-status" id="workoutStatus">○</span>
-
-</button>
+  <button class="cancel-day" onclick="markBadDay()">
+    Oggi non è andata come volevo
+  </button>
 
 </div>
 
 
 <div class="card" style="background:var(--sage2)">
-
-<b>IL TUO PERCORSO ♡</b>
-
-<p class="sub">
-Ogni giornata conta. Non devi essere perfetta: devi solo continuare.
-</p>
-
+  <b>IL TUO PERCORSO ♡</b>
+  <p class="sub">
+    Non esistono giornate perse. Anche quando non va come vorresti,
+    registrare la giornata significa continuare il percorso.
+  </p>
 </div>
 
 </section>
 
 
 <!-- PIANO -->
-
 <section id="plan" class="screen">
 
 <h2>Piano</h2>
 
 <div class="sub">
-Il tuo piano alimentare e il monitoraggio del percorso.
+  Il tuo piano alimentare e lo storico del tuo percorso.
 </div>
 
 
-<div class="card">
+<div class="card photo-box">
 
 <h3>🍽️ Piano alimentare della settimana</h3>
 
 <p class="sub">
-Carica qui la foto del tuo piano alimentare.
+  Carica qui la foto del tuo piano alimentare.
 </p>
 
 <input
-type="file"
-id="mealPhoto"
-accept="image/*"
-onchange="saveMealPhoto(event)"
-style="width:100%;margin:10px 0;"
+  type="file"
+  id="mealPhoto"
+  accept="image/*"
+  onchange="saveMealPhoto(event)"
+  style="width:100%;margin:10px 0;"
 >
 
-<img
-id="mealPreview"
-class="photo"
->
+<img id="mealPreview">
 
 <button
-id="removeMealPhoto"
-class="btn soft"
-style="display:none;margin-top:10px;"
-onclick="removeMealPhoto()"
+  id="removeMealPhoto"
+  class="btn soft"
+  style="display:none;margin-top:10px;"
+  onclick="removeMealPhoto()"
 >
-Sostituisci foto
+  Sostituisci foto
 </button>
 
 </div>
@@ -530,36 +617,68 @@ Sostituisci foto
 
 <h3>🎯 Il mio percorso</h3>
 
-<p class="sub">
-Il tuo storico dalla data in cui hai iniziato.
-</p>
-
 <div class="pathstats">
 
-<div class="pathstat">
-<b id="dietDays">0</b>
-<span>giorni dieta</span>
+  <div class="pathstat">
+    <b id="totalDiet">0</b>
+    <span>giorni dieta</span>
+  </div>
+
+  <div class="pathstat">
+    <b id="totalTemptation">0</b>
+    <span>tentazioni resistite</span>
+  </div>
+
+  <div class="pathstat">
+    <b id="totalWorkout">0</b>
+    <span>allenamenti</span>
+  </div>
+
 </div>
 
-<div class="pathstat">
-<b id="temptDays">0</b>
-<span>tentazioni resistite</span>
+
+<div class="history">
+
+<h3>📅 Storico</h3>
+
+<div class="sub">
+  Dal <span id="historyStart"></span>
 </div>
 
-<div class="pathstat">
-<b id="workoutDays">0</b>
-<span>allenamenti</span>
-</div>
+<div id="historyList"></div>
 
 </div>
 
+</div>
 
-<h4>Storico</h4>
 
-<div class="calendar" id="cal"></div>
+<!-- PROMEMORIA -->
+<div class="card">
 
-<div class="legend">
-🟢 giornata completata &nbsp; 🌸 giornata con attività parziale
+<h3>🔔 Promemoria</h3>
+
+<div class="sub">
+  Alle 21 ricordati di registrare la tua giornata.
+</div>
+
+<div class="notification-box">
+
+  <div class="notification-row">
+
+    <div>
+      <div class="label">PROMEMORIA QUOTIDIANO</div>
+      <div class="notification-time">21:00</div>
+    </div>
+
+    <button
+      class="small-btn"
+      onclick="enableNotifications()"
+    >
+      Attiva
+    </button>
+
+  </div>
+
 </div>
 
 </div>
@@ -568,38 +687,59 @@ Il tuo storico dalla data in cui hai iniziato.
 
 
 <!-- IMPORTANTE -->
-
 <section id="important" class="screen">
 
 <h2>IMPORTANTE</h2>
 
 <div class="sub">
-Rileggi questa lista più volte al giorno.
+  Rileggi questa lista più volte al giorno.
 </div>
 
 <div class="card motives">
 
-<p>Per sentirmi bella ogni volta che mi guardo o che guardo una mia foto</p>
+<p>
+Per sentirmi bella ogni volta che mi guardo o che guardo una mia foto
+</p>
 
-<p>Mio marito e i miei figli non si devono vergognare di me</p>
+<p>
+Mio marito e i miei figli non si devono vergognare di me
+</p>
 
-<p>Essere a mio agio in intimità</p>
+<p>
+Essere a mio agio in intimità
+</p>
 
-<p>Essere un esempio per i miei figli</p>
+<p>
+Essere un esempio per i miei figli
+</p>
 
-<p>Non avere l’ansia di mettermi in costume</p>
+<p>
+Non avere l’ansia di mettermi in costume
+</p>
 
-<p>Poter rincorrere i miei figli senza avere il fiatone</p>
+<p>
+Poter rincorrere i miei figli senza avere il fiatone
+</p>
 
-<p>Dimostrare a mia madre che posso perdere peso senza ricorrere a scorciatoie</p>
+<p>
+Dimostrare a mia madre che posso perdere peso senza ricorrere a scorciatoie
+</p>
 
-<p>Per poter entrare in un negozio e trovare sempre il capo con la mia taglia</p>
+<p>
+Per poter entrare in un negozio e trovare sempre il capo con la mia taglia
+</p>
 
-<p>Non dover più sentire giudizi sul mio corpo o commenti su cosa e quanto mangio</p>
+<p>
+Non dover più sentire giudizi sul mio corpo o commenti su cosa e quanto mangio
+</p>
 
-<p>Non dover più cercare “curvy”</p>
+<p>
+Non dover più cercare “curvy”
+</p>
 
-<p>Per potermi allenare con indumenti attillati senza sentirmi giudicata</p>
+<p>
+Per potermi allenare con indumenti attillati senza sentirmi giudicata
+</p>
 
 </div>
 
@@ -607,7 +747,6 @@ Rileggi questa lista più volte al giorno.
 
 
 <!-- SOS -->
-
 <section id="sos" class="screen">
 
 <div class="card">
@@ -621,62 +760,46 @@ Leggi, respira, poi decidi.
 </p>
 
 
-<div class="card">
-
+<div class="sos-box">
 ♡<br>
-
 <b>Ricordati quanto è importante per te.</b><br>
-
 <span class="sub">
 Torna a leggere il perché hai iniziato.
 </span>
-
 </div>
 
 
-<div class="card">
-
+<div class="sos-box">
 ✨<br>
-
 <b>
 Il piacere di pochi secondi non vale la gioia di vederti bella nella foto.
 </b>
-
 </div>
 
 
-<div class="card">
-
+<div class="sos-box">
 🌿<br>
-
 <b>Prova a distrarti.</b><br>
-
 <span class="sub">
 Magari è solo fame emotiva.
 </span>
-
 </div>
 
 
-<div class="card">
-
+<div class="sos-box">
 🍴<br>
-
 <b>
 Se stai per mollare, ricordati di sederti a mangiare anche se non hai ancora fame.
 </b>
-
 </div>
 
 
 <button
-class="btn sage"
-onclick="alert('Aspetta 10 minuti. Non devi decidere adesso.')"
+  class="btn sage"
+  onclick="alert('Aspetta 10 minuti. Non devi decidere adesso.')"
 >
-
 Aspetta 10 minuti.<br>
 Non devi decidere adesso.
-
 </button>
 
 </div>
@@ -684,40 +807,36 @@ Non devi decidere adesso.
 </section>
 
 
-<!-- MENU -->
-
+<!-- NAV -->
 <nav class="bottom">
 
 <button
-class="nav active"
-onclick="go('dashboard',this)"
+  class="nav active"
+  onclick="go('dashboard',this)"
 >
 <span class="ico">⌂</span>
 Dashboard
 </button>
 
-
 <button
-class="nav"
-onclick="go('plan',this)"
+  class="nav"
+  onclick="go('plan',this)"
 >
 <span class="ico">▣</span>
 Piano
 </button>
 
-
 <button
-class="nav"
-onclick="go('important',this)"
+  class="nav"
+  onclick="go('important',this)"
 >
 <span class="ico">♡</span>
 Importante
 </button>
 
-
 <button
-class="nav"
-onclick="go('sos',this)"
+  class="nav"
+  onclick="go('sos',this)"
 >
 <span class="ico">◉</span>
 SOS
@@ -726,91 +845,50 @@ SOS
 </nav>
 
 
-<!-- MODALE PESO -->
-
-<div class="modal" id="weightModal">
+<!-- MODALE IMPOSTAZIONI -->
+<div class="modal" id="modal">
 
 <div class="modalbox">
 
-<h2>Modifica obiettivi</h2>
+<h2>Modifica percorso</h2>
 
 <label>
 Peso attuale (kg)
-
 <input
-id="wi"
-type="number"
-step=".1"
+  id="wi"
+  type="number"
+  step=".1"
 >
 </label>
-
 
 <label>
 Peso obiettivo (kg)
-
 <input
-id="gi"
-type="number"
-step=".1"
+  id="gi"
+  type="number"
+  step=".1"
 >
 </label>
-
-
-<button
-class="btn rose"
-onclick="saveWeight()"
->
-Salva
-</button>
-
-
-<button
-class="btn soft"
-style="margin-top:8px"
-onclick="weightModal.classList.remove('show')"
->
-Annulla
-</button>
-
-</div>
-
-</div>
-
-
-<!-- MODALE DATA -->
-
-<div class="modal" id="dateModal">
-
-<div class="modalbox">
-
-<h2>Inizio dieta</h2>
-
-<p class="sub">
-Inserisci la data in cui hai iniziato il tuo percorso.
-</p>
 
 <label>
-Data di inizio
-
+Data di inizio dieta
 <input
-id="startInput"
-type="date"
+  id="si"
+  type="date"
 >
 </label>
 
-
 <button
-class="btn rose"
-onclick="saveStartDate()"
+  class="btn rose"
+  onclick="saveSettings()"
 >
 Salva
 </button>
 
-
 <button
-class="btn soft"
-style="margin-top:8px"
-onclick="dateModal.classList.remove('show')"
+  class="btn soft"
+  style="margin-top:8px"
+  onclick="modal.classList.remove('show')"
 >
 Annulla
 </button>
@@ -819,6 +897,7 @@ Annulla
 
 </div>
 
+</main>
 </div>
 
 
@@ -829,23 +908,38 @@ Annulla
 ========================= */
 
 const todayKey = () =>
-new Date().toISOString().slice(0,10);
-
-
-const defaultStart = "2026-08-05";
+  new Date().toLocaleDateString('en-CA');
 
 
 let s =
 JSON.parse(
-localStorage.getItem("mioPercorsoV2") || "null"
-)
-||
-{
-weight:68.4,
-goal:58,
-startDate:defaultStart,
-history:{},
-mealPhoto:"",
+  localStorage.getItem('mioPercorsoV2')
+) || {
+
+  weight:68.4,
+
+  goal:58,
+
+  startDate:todayKey(),
+
+  history:{},
+
+  mealPhoto:'',
+
+  reminderEnabled:false,
+
+  lastReminderDate:'',
+
+  todayActivities:{
+
+    diet:false,
+
+    temptation:false,
+
+    workout:false
+
+  }
+
 };
 
 
@@ -855,50 +949,43 @@ mealPhoto:"",
 
 function save(){
 
-localStorage.setItem(
-"mioPercorsoV2",
-JSON.stringify(s)
-);
+  localStorage.setItem(
+    'mioPercorsoV2',
+    JSON.stringify(s)
+  );
 
 }
 
 
 /* =========================
-   STORICO DEL GIORNO
+   GESTIONE GIORNO
 ========================= */
 
-function getToday(){
+function ensureToday(){
 
-const k=todayKey();
+  const today = todayKey();
 
-if(!s.history[k]){
+  if(!s.todayActivities){
+    s.todayActivities={
+      diet:false,
+      temptation:false,
+      workout:false
+    };
+  }
 
-s.history[k]={
-diet:false,
-tempt:false,
-workout:false
-};
+  if(s.todayDate !== today){
 
-}
+    s.todayDate=today;
 
-return s.history[k];
+    s.todayActivities={
+      diet:false,
+      temptation:false,
+      workout:false
+    };
 
-}
+    save();
 
-
-/* =========================
-   AZIONI
-========================= */
-
-function toggleAction(type){
-
-const day=getToday();
-
-day[type]=!day[type];
-
-save();
-
-render();
+  }
 
 }
 
@@ -909,255 +996,510 @@ render();
 
 function render(){
 
-/* PESO */
-
-weight.textContent =
-Number(s.weight)
-.toFixed(1)
-.replace(".",",");
-
-goal.textContent =
-Number(s.goal)
-.toFixed(1)
-.replace(".",",");
-
-left.textContent =
-Math.max(0,s.weight-s.goal)
-.toFixed(1)
-.replace(".",",");
+  ensureToday();
 
 
-/* PERCENTUALE */
+  /* PESO */
 
-let startWeight=68.4;
-
-let denominator=
-startWeight-s.goal;
-
-let p=0;
-
-if(denominator>0){
-
-p=
-((startWeight-s.weight)/denominator)*100;
-
-}
-
-p=
-Math.max(0,Math.min(100,p));
-
-prog.style.setProperty(
-"--p",
-p+"%"
-);
-
-pct.innerHTML =
-Math.round(p)+
-'%<small>del percorso</small>';
+  document.getElementById('weight')
+    .textContent=
+    Number(s.weight)
+      .toFixed(1)
+      .replace('.',',');
 
 
-/* DATA */
-
-startDate.textContent =
-formatDate(s.startDate);
-
-
-/* AZIONI */
-
-const day=getToday();
-
-setAction(
-"dietAction",
-"dietStatus",
-day.diet
-);
-
-setAction(
-"temptAction",
-"temptStatus",
-day.tempt
-);
-
-setAction(
-"workoutAction",
-"workoutStatus",
-day.workout
-);
+  document.getElementById('goal')
+    .textContent=
+    Number(s.goal)
+      .toFixed(1)
+      .replace('.',',');
 
 
-/* STATISTICHE */
+  const left=
+    Math.max(
+      0,
+      Number(s.weight)-Number(s.goal)
+    );
 
-let diet=0;
-let tempt=0;
-let workout=0;
-
-Object.keys(s.history).forEach(k=>{
-
-if(k>=s.startDate){
-
-const d=s.history[k];
-
-if(d.diet) diet++;
-
-if(d.tempt) tempt++;
-
-if(d.workout) workout++;
-
-}
-
-});
-
-dietDays.textContent=diet;
-temptDays.textContent=tempt;
-workoutDays.textContent=workout;
+  document.getElementById('left')
+    .textContent=
+    left.toFixed(1)
+      .replace('.',',');
 
 
-/* CALENDARIO */
+  /* PROGRESSO */
 
-calendar();
+  let p=0;
 
-renderMealPhoto();
+  if(Number(s.weight)<=Number(s.goal)){
 
-}
+    p=100;
+
+  }else{
+
+    const startWeight=68.4;
+
+    p=
+      Math.max(
+        0,
+        Math.min(
+          100,
+          ((startWeight-Number(s.weight)) /
+          (startWeight-Number(s.goal)))*100
+        )
+      );
+
+  }
 
 
-function setAction(
-buttonId,
-statusId,
-done
-){
+  document
+    .getElementById('prog')
+    .style
+    .setProperty('--p',p+'%');
 
-const button=
-document.getElementById(buttonId);
 
-const status=
-document.getElementById(statusId);
+  document.getElementById('pct')
+    .innerHTML=
+    Math.round(p)+
+    '%<small>del percorso</small>';
 
-if(done){
 
-button.classList.add("done");
+  /* DATA */
 
-status.textContent="✓";
+  document.getElementById('startDate')
+    .textContent=formatDate(s.startDate);
 
-}else{
 
-button.classList.remove("done");
+  document.getElementById('historyStart')
+    .textContent=formatDate(s.startDate);
 
-status.textContent="○";
 
-}
+  /* ATTIVITÀ */
+
+  updateActivityButton(
+    'actDiet',
+    s.todayActivities.diet
+  );
+
+  updateActivityButton(
+    'actTemptation',
+    s.todayActivities.temptation
+  );
+
+  updateActivityButton(
+    'actWorkout',
+    s.todayActivities.workout
+  );
+
+
+  updateTodayMessage();
+
+
+  /* STATISTICHE */
+
+  const totals=getTotals();
+
+  document.getElementById('totalDiet')
+    .textContent=totals.diet;
+
+  document.getElementById('totalTemptation')
+    .textContent=totals.temptation;
+
+  document.getElementById('totalWorkout')
+    .textContent=totals.workout;
+
+
+  /* STORICO */
+
+  renderHistory();
+
+
+  /* FOTO */
+
+  renderMealPhoto();
 
 }
 
 
 /* =========================
-   DATA
+   ATTIVITÀ
 ========================= */
 
-function formatDate(date){
+function updateActivityButton(id,done){
 
-if(!date) return "";
+  const el=document.getElementById(id);
 
-const parts=date.split("-");
+  if(done){
 
-return parts[2]+"/"+parts[1]+"/"+parts[0];
+    el.classList.add('done');
 
-}
+  }else{
 
+    el.classList.remove('done');
 
-function editStartDate(){
-
-startInput.value=s.startDate;
-
-dateModal.classList.add("show");
+  }
 
 }
 
 
-function saveStartDate(){
+function toggleActivity(type){
 
-if(startInput.value){
+  ensureToday();
 
-s.startDate=startInput.value;
+  s.todayActivities[type]=
+    !s.todayActivities[type];
 
-save();
+  save();
 
-render();
+  updateHistoryToday();
 
-dateModal.classList.remove("show");
-
-}
+  render();
 
 }
 
 
 /* =========================
-   PESO
+   GIORNATA NON COMPLETATA
 ========================= */
 
-function editWeight(){
+function markBadDay(){
 
-wi.value=s.weight;
+  ensureToday();
 
-gi.value=s.goal;
+  s.todayActivities={
+    diet:false,
+    temptation:false,
+    workout:false
+  };
 
-weightModal.classList.add("show");
+  s.todayMarked=true;
 
-}
+  save();
 
+  updateHistoryToday();
 
-function saveWeight(){
-
-const w=parseFloat(wi.value);
-
-const g=parseFloat(gi.value);
-
-if(
-w>0 &&
-g>0
-){
-
-s.weight=w;
-
-s.goal=g;
-
-save();
-
-render();
-
-weightModal.classList.remove("show");
+  render();
 
 }
+
+
+function updateTodayMessage(){
+
+  const box=
+    document.getElementById('todayMessage');
+
+  const a=s.todayActivities;
+
+  const count=
+    [a.diet,a.temptation,a.workout]
+    .filter(Boolean).length;
+
+
+  if(count===0){
+
+    box.innerHTML=
+      'Non hai ancora registrato nulla oggi. 🌿';
+
+    return;
+
+  }
+
+
+  if(count===3){
+
+    box.innerHTML=
+      '✨ Hai registrato tutte e tre le attività di oggi. Brava, continua così!';
+
+    return;
+
+  }
+
+
+  box.innerHTML=
+    '✓ Hai registrato '+count+
+    ' attività oggi. Ogni scelta conta. 🌿';
 
 }
 
 
 /* =========================
-   NAVIGAZIONE
+   STORICO
 ========================= */
 
-function go(id,el){
+function updateHistoryToday(){
 
-document
-.querySelectorAll(".screen")
-.forEach(x=>
-x.classList.remove("active")
-);
+  const k=todayKey();
 
-document
-.getElementById(id)
-.classList.add("active");
+  if(!s.history[k]){
+
+    s.history[k]={
+      diet:false,
+      temptation:false,
+      workout:false
+    };
+
+  }
+
+  s.history[k]={
+    diet:s.todayActivities.diet,
+    temptation:s.todayActivities.temptation,
+    workout:s.todayActivities.workout
+  };
+
+  save();
+
+}
 
 
-document
-.querySelectorAll(".nav")
-.forEach(x=>
-x.classList.remove("active")
-);
+function getTotals(){
 
-el.classList.add("active");
+  const totals={
+    diet:0,
+    temptation:0,
+    workout:0
+  };
 
-window.scrollTo(0,0);
+
+  Object.keys(s.history).forEach(k=>{
+
+    const d=s.history[k];
+
+    if(d.diet) totals.diet++;
+
+    if(d.temptation) totals.temptation++;
+
+    if(d.workout) totals.workout++;
+
+  });
+
+
+  return totals;
+
+}
+
+
+function renderHistory(){
+
+  const container=
+    document.getElementById('historyList');
+
+  container.innerHTML='';
+
+
+  const start=
+    parseLocalDate(s.startDate);
+
+  const today=
+    parseLocalDate(todayKey());
+
+
+  if(start>today){
+
+    container.innerHTML=
+      '<div class="history-empty">La data di inizio non può essere successiva a oggi.</div>';
+
+    return;
+
+  }
+
+
+  let current=new Date(today);
+
+
+  while(current>=start){
+
+    const k=localDateKey(current);
+
+    const d=
+      s.history[k] ||
+      {
+        diet:false,
+        temptation:false,
+        workout:false
+      };
+
+
+    const row=
+      document.createElement('div');
+
+    row.className='history-day';
+
+
+    const date=
+      document.createElement('div');
+
+    date.className='history-date';
+
+    date.textContent=
+      formatDate(k);
+
+
+    const items=
+      document.createElement('div');
+
+    items.className='history-items';
+
+
+    items.appendChild(
+      historyItem(
+        '🍵 Dieta',
+        d.diet
+      )
+    );
+
+    items.appendChild(
+      historyItem(
+        '🌿 Tentazione',
+        d.temptation
+      )
+    );
+
+    items.appendChild(
+      historyItem(
+        '🏋🏻‍♀️ Allenamento',
+        d.workout
+      )
+    );
+
+
+    row.appendChild(date);
+
+    row.appendChild(items);
+
+    container.appendChild(row);
+
+
+    current.setDate(
+      current.getDate()-1
+    );
+
+  }
+
+}
+
+
+function historyItem(text,done){
+
+  const el=
+    document.createElement('div');
+
+  el.className=
+    'history-item'+
+    (done?' done':'');
+
+  el.textContent=
+    done ? '✓ '+text : '— '+text;
+
+  return el;
+
+}
+
+
+/* =========================
+   DATE
+========================= */
+
+function parseLocalDate(value){
+
+  const parts=value.split('-');
+
+  return new Date(
+    Number(parts[0]),
+    Number(parts[1])-1,
+    Number(parts[2])
+  );
+
+}
+
+
+function localDateKey(date){
+
+  return date.getFullYear()+
+    '-'+
+    String(date.getMonth()+1).padStart(2,'0')+
+    '-'+
+    String(date.getDate()).padStart(2,'0');
+
+}
+
+
+function formatDate(value){
+
+  if(!value) return '—';
+
+  const d=parseLocalDate(value);
+
+  return d.toLocaleDateString(
+    'it-IT',
+    {
+      day:'numeric',
+      month:'long',
+      year:'numeric'
+    }
+  );
+
+}
+
+
+/* =========================
+   IMPOSTAZIONI
+========================= */
+
+function editSettings(){
+
+  document.getElementById('wi').value=
+    s.weight;
+
+  document.getElementById('gi').value=
+    s.goal;
+
+  document.getElementById('si').value=
+    s.startDate;
+
+  document
+    .getElementById('modal')
+    .classList.add('show');
+
+}
+
+
+function saveSettings(){
+
+  const w=
+    parseFloat(
+      document.getElementById('wi').value
+    );
+
+  const g=
+    parseFloat(
+      document.getElementById('gi').value
+    );
+
+  const start=
+    document.getElementById('si').value;
+
+
+  if(
+    w>0 &&
+    g>0 &&
+    start
+  ){
+
+    s.weight=w;
+
+    s.goal=g;
+
+    s.startDate=start;
+
+    save();
+
+    render();
+
+    document
+      .getElementById('modal')
+      .classList.remove('show');
+
+  }
 
 }
 
@@ -1168,240 +1510,208 @@ window.scrollTo(0,0);
 
 function saveMealPhoto(event){
 
-const file=
-event.target.files[0];
+  const file=
+    event.target.files[0];
 
-if(!file) return;
-
-
-/*
-Ridimensioniamo la foto
-per evitare di salvare file
-enormi nel localStorage.
-*/
-
-const reader=
-new FileReader();
+  if(!file) return;
 
 
-reader.onload=function(e){
+  const reader=
+    new FileReader();
 
-const img=new Image();
 
-img.onload=function(){
+  reader.onload=function(e){
 
-const maxWidth=1000;
+    s.mealPhoto=
+      e.target.result;
 
-let width=img.width;
+    save();
 
-let height=img.height;
+    renderMealPhoto();
 
-if(width>maxWidth){
+  };
 
-height=
-height*(maxWidth/width);
 
-width=maxWidth;
-
-}
-
-const canvas=
-document.createElement("canvas");
-
-canvas.width=width;
-
-canvas.height=height;
-
-const ctx=
-canvas.getContext("2d");
-
-ctx.drawImage(
-img,
-0,
-0,
-width,
-height
-);
-
-s.mealPhoto=
-canvas.toDataURL(
-"image/jpeg",
-0.75
-);
-
-save();
-
-renderMealPhoto();
-
-};
-
-img.src=e.target.result;
-
-};
-
-reader.readAsDataURL(file);
+  reader.readAsDataURL(file);
 
 }
 
 
 function renderMealPhoto(){
 
-const preview=
-document.getElementById(
-"mealPreview"
-);
+  const preview=
+    document.getElementById(
+      'mealPreview'
+    );
 
-const removeBtn=
-document.getElementById(
-"removeMealPhoto"
-);
+  const removeBtn=
+    document.getElementById(
+      'removeMealPhoto'
+    );
 
-if(s.mealPhoto){
 
-preview.src=s.mealPhoto;
+  if(s.mealPhoto){
 
-preview.style.display="block";
+    preview.src=s.mealPhoto;
 
-removeBtn.style.display="block";
+    preview.style.display='block';
 
-}else{
+    removeBtn.style.display='block';
 
-preview.style.display="none";
+  }else{
 
-removeBtn.style.display="none";
+    preview.style.display='none';
 
-}
+    removeBtn.style.display='none';
+
+  }
 
 }
 
 
 function removeMealPhoto(){
 
-s.mealPhoto="";
+  s.mealPhoto='';
 
-save();
+  save();
 
-renderMealPhoto();
+  renderMealPhoto();
 
-document.getElementById(
-"mealPhoto"
-).value="";
+  document.getElementById(
+    'mealPhoto'
+  ).value='';
 
 }
 
 
 /* =========================
-   CALENDARIO
+   NAVIGAZIONE
 ========================= */
 
-function calendar(){
+function go(id,el){
 
-const container=
-document.getElementById("cal");
-
-container.innerHTML="";
-
-
-const start=
-new Date(
-s.startDate+"T00:00:00"
-);
-
-const today=
-new Date();
-
-today.setHours(0,0,0,0);
+  document
+    .querySelectorAll('.screen')
+    .forEach(x=>
+      x.classList.remove('active')
+    );
 
 
-if(start>today){
+  document
+    .getElementById(id)
+    .classList.add('active');
 
-return;
+
+  document
+    .querySelectorAll('.nav')
+    .forEach(x=>
+      x.classList.remove('active')
+    );
+
+
+  el.classList.add('active');
+
+  window.scrollTo(0,0);
+
+}
+
+
+/* =========================
+   NOTIFICHE
+========================= */
+
+function enableNotifications(){
+
+  if(!('Notification' in window)){
+
+    alert(
+      'Le notifiche non sono supportate da questo browser.'
+    );
+
+    return;
+
+  }
+
+
+  Notification
+    .requestPermission()
+    .then(permission=>{
+
+      if(permission==='granted'){
+
+        s.reminderEnabled=true;
+
+        save();
+
+        alert(
+          'Promemoria attivato! 🌿'
+        );
+
+      }else{
+
+        alert(
+          'Per ricevere il promemoria devi consentire le notifiche.'
+        );
+
+      }
+
+    });
 
 }
 
 
 /*
-Mostriamo gli ultimi
-28 giorni disponibili,
-ma mai prima dell'inizio
-della dieta.
+  Promemoria quando l'app viene aperta
+  dopo le 21:00, se oggi non hai registrato nulla.
 */
 
-let first=
-new Date(today);
+function checkReminder(){
 
-first.setDate(
-today.getDate()-27
-);
-
-if(first<start){
-
-first=start;
-
-}
+  if(!s.reminderEnabled) return;
 
 
-let d=new Date(first);
+  const now=new Date();
+
+  const hour=now.getHours();
+
+  const today=todayKey();
 
 
-while(d<=today){
+  const a=s.todayActivities;
 
-const k=
-d.toISOString().slice(0,10);
+  const nothing=
+    !a.diet &&
+    !a.temptation &&
+    !a.workout;
 
-const data=
-s.history[k];
 
-const x=
-document.createElement("div");
+  if(
+    hour>=21 &&
+    nothing &&
+    s.lastReminderDate!==today
+  ){
 
-let cls="calday";
+    if(
+      'Notification' in window &&
+      Notification.permission==='granted'
+    ){
 
-if(data){
+      new Notification(
+        'Com’è andata oggi? 🌿',
+        {
+          body:
+          'Non hai ancora registrato la tua giornata.',
+          icon:''
+        }
+      );
 
-const count=
-(data.diet?1:0)+
-(data.tempt?1:0)+
-(data.workout?1:0);
+    }
 
-if(count===3){
+    s.lastReminderDate=today;
 
-cls+=" done";
+    save();
 
-}else if(count>0){
-
-cls+=" partial";
-
-}
-
-}
-
-if(k===todayKey()){
-
-cls+=" today";
-
-}
-
-x.className=cls;
-
-x.innerHTML=
-'<span>'+
-d.toLocaleDateString(
-"it-IT",
-{weekday:"narrow"}
-)+
-'</span>'+
-'<b>'+
-d.getDate()+
-'</b>';
-
-container.appendChild(x);
-
-d.setDate(
-d.getDate()+1
-);
-
-}
+  }
 
 }
 
@@ -1410,7 +1720,13 @@ d.getDate()+1
    AVVIO
 ========================= */
 
+ensureToday();
+
+updateHistoryToday();
+
 render();
+
+checkReminder();
 
 </script>
 
